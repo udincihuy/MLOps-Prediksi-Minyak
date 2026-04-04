@@ -1,68 +1,30 @@
-import requests
+import yfinance as yf
 import pandas as pd
+from datetime import datetime
 import os
-import time
 
-API_KEY = "RNQvEhetDURiITSlTCO3C0f9M1IbjUtD"
+def ingest_data():
+    # ambil data 1 hari terakhir
+    data = yf.download("CL=F", period="30d", interval="1d")
 
-url = "https://www.mapquestapi.com/directions/v2/route"
+    data.reset_index(inplace=True)
 
-routes = [
-    ("New York, NY", "Washington, DC"),
-    ("Los Angeles, CA", "San Diego, CA"),
-    ("Chicago, IL", "Detroit, MI"),
-    ("Dallas, TX", "Houston, TX"),
-    ("San Francisco, CA", "San Jose, CA"),
-    ("Boston, MA", "Philadelphia, PA"),
-    ("Seattle, WA", "Portland, OR"),
-    ("Miami, FL", "Orlando, FL"),
-    ("Atlanta, GA", "Charlotte, NC"),
-    ("Denver, CO", "Salt Lake City, UT")
-]
+    # ambil tanggal hari ini
+    today = datetime.now().strftime("%Y-%m-%d")
 
-results = []
+    # nama file per hari
+    filename = f"data/raw/oil_{today}.csv"
 
-for start, end in routes:
+    os.makedirs("data/raw", exist_ok=True)
 
-    params = {
-        "key": API_KEY,
-        "from": start,
-        "to": end
-    }
+    # kalau file sudah ada → append (biar gak overwrite)
+    if os.path.exists(filename):
+        existing = pd.read_csv(filename)
+        data = pd.concat([existing, data]).drop_duplicates()
 
-    response = requests.get(url, params=params)
-    data = response.json()
+    data.to_csv(filename, index=False)
 
-    route = data["route"]
+    print(f"[INFO] Data harian disimpan: {filename}")
 
-    distance = route["distance"]
-    time_normal = route["time"]
-    realtime = route["realTime"]
-
-    ratio = realtime / time_normal
-
-    if ratio < 1.1:
-        condition = "lancar"
-    elif ratio < 1.3:
-        condition = "padat"
-    else:
-        condition = "macet"
-
-    results.append({
-        "from": start,
-        "to": end,
-        "distance_km": distance,
-        "time_seconds": time_normal,
-        "realTime_seconds": realtime,
-        "traffic_condition": condition
-    })
-
-    time.sleep(1) 
-
-df = pd.DataFrame(results)
-
-os.makedirs("data/raw", exist_ok=True)
-
-df.to_csv("data/raw/traffic_raw.csv", index=False)
-
-print("Data berhasil disimpan dengan", len(df), "data")
+if __name__ == "__main__":
+    ingest_data()

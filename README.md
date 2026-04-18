@@ -1,4 +1,4 @@
-﻿# Sistem Prediksi Kondisi Lalu Lintas Berbasis MLOps
+﻿# Sistem Prediksi Harga Minyak Berbasis MLOps
 
 ## Struktur Direktori
 

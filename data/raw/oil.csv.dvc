@@ -1,0 +1,5 @@
+outs:
+- md5: dd324edaffc18102375e071fd3173dd6
+  size: 2249
+  hash: md5
+  path: oil.csv

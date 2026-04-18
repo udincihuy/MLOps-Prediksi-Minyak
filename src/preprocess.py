@@ -1,32 +1,31 @@
 import pandas as pd
-import glob
 
 def preprocess():
-    files = glob.glob("data/raw/*.csv")
+    file = "data/raw/oil.csv"
 
-    if not files:
+    try:
+        data = pd.read_csv(file)
+    except:
         print("Data tidak ditemukan!")
         return
 
-    df_list = [pd.read_csv(f) for f in files]
-    data = pd.concat(df_list, ignore_index=True)
-
     # ===== CLEANING =====
+    # hapus baris kosong
     data = data.dropna()
-    data = data.drop_duplicates()
+
+    # hapus duplikat berdasarkan tanggal
+    data = data.drop_duplicates(subset=["Date"])
 
     # pastikan format tanggal
     data['Date'] = pd.to_datetime(data['Date'])
 
-    # urutkan
+    # sorting
     data = data.sort_values(by="Date")
 
     # ===== FEATURE ENGINEERING =====
-    # lag (hari sebelumnya)
     data['lag1'] = data['Close'].shift(1)
     data['lag2'] = data['Close'].shift(2)
 
-    # moving average
     data['ma3'] = data['Close'].rolling(3).mean()
 
     # hapus NaN akibat lag

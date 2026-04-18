@@ -5,7 +5,7 @@
 Berikut struktur proyek yang digunakan:
 
 ```text
-MLOps-Sistem-Prediksi-Kondisi-Lalu-Lintas/
+MLOps-Sistem-Prediksi-harga-minyak/
 ├── data/           → Berkaitan dengan data yang diambil (data ada versioningnya)
 │   ├── raw/        → Data mentah dari API
 │   └── processed/  → Data yang sudah dibersihkan

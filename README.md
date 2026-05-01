@@ -56,3 +56,16 @@ Proyek ini mengimplementasikan pelacakan silsilah data (*data lineage*) mengguna
 2. **Simulasi Continual Learning:** Untuk menyimulasikan berjalannya waktu dan masuknya data baru, skrip ingesti dijalankan kembali. Skrip secara otomatis akan mengambil data terbaru dan menggabungkannya ke file CSV yang sudah ada tanpa duplikasi.
 3. **Pembaruan Versi Data (v2):** Setelah file dataset membesar karena adanya tambahan data baru, DVC digunakan kembali untuk melacak perubahannya (`dvc add`). DVC mendeteksi adanya perubahan ukuran (*size*) dan menghasilkan *hash value* (MD5) yang baru.
 4. **Audit & Penyimpanan:** Perubahan metadata versi 2 ini (*hash* baru) di-*commit* kembali ke dalam Git. Hal ini memungkinkan kita untuk melakukan *rollback* ke versi data tanggal tertentu (v1 atau v2) di masa depan jika performa model menurun akibat data yang tidak valid.
+## Model yang Digunakan
+Model yang digunakan untuk prediksi:
+
+- Nama: harga_minyak_model
+- Versi: 3
+- Stage: Production
+
+Model ini dipilih karena memiliki nilai RMSE paling kecil.
+
+---
+
+## Data Versioning (DVC)
+Dataset dikelola menggunakan DVC agar perubahan data dapat dilacak.

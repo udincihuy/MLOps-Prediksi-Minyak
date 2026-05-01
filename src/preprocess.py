@@ -13,26 +13,23 @@ def preprocess():
     data = data.dropna()
     data = data.drop_duplicates(subset=["Date"])
 
-    # format tanggal
     data['Date'] = pd.to_datetime(data['Date'])
-
-    # sorting (WAJIB sebelum lag)
     data = data.sort_values(by="Date")
 
     # ===== FEATURE ENGINEERING =====
     data['lag1'] = data['Close'].shift(1)
     data['lag2'] = data['Close'].shift(2)
 
-    # 🔥 TARGET (prediksi besok)
+    data['ma3'] = data['Close'].rolling(3).mean()
+
+   
     data['target'] = data['Close'].shift(-1)
 
-    # hapus NaN akibat shift
     data = data.dropna()
 
-    # simpan
     data.to_csv("data/processed.csv", index=False)
 
-    print("[INFO] Preprocessing selesai, data siap training!")
+    print("[INFO] Preprocessing selesai!")
 
 if __name__ == "__main__":
     preprocess()

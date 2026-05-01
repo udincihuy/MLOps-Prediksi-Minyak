@@ -1,0 +1,5 @@
+outs:
+- md5: 5a8981090864cdec4036f47c0b6ab52e
+  size: 113
+  hash: md5
+  path: model_info.yaml

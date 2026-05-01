@@ -221,3 +221,4 @@ mlflow.db
 
 # Optional (kalau ga mau commit hasil preprocess)
 data/processed.csv
+/model_info.yaml

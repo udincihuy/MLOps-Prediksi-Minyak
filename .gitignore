@@ -209,3 +209,15 @@ __marimo__/
 # DVC - ignore raw data
 data/raw/*.csv
 data/processed.csv
+
+# MLflow
+mlruns/
+
+# Database MLflow
+mlflow.db
+
+# DVC cache
+.dvc/cache/
+
+# Optional (kalau ga mau commit hasil preprocess)
+data/processed.csv

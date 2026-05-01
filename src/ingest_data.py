@@ -6,7 +6,7 @@ def ingest_data():
     # 1. Download data baru
     data = yf.download("CL=F", period="30d", interval="1d")
 
-    # FIX multi-index column (penting untuk yfinance versi terbaru)
+
     if isinstance(data.columns, pd.MultiIndex):
         data.columns = data.columns.get_level_values(0)
 

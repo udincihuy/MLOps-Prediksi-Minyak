@@ -10,25 +10,23 @@ def preprocess():
         return
 
     # ===== CLEANING =====
-    # hapus baris kosong
     data = data.dropna()
-
-    # hapus duplikat berdasarkan tanggal
     data = data.drop_duplicates(subset=["Date"])
 
-    # pastikan format tanggal
+    # format tanggal
     data['Date'] = pd.to_datetime(data['Date'])
 
-    # sorting
+    # sorting (WAJIB sebelum lag)
     data = data.sort_values(by="Date")
 
     # ===== FEATURE ENGINEERING =====
     data['lag1'] = data['Close'].shift(1)
     data['lag2'] = data['Close'].shift(2)
 
-    data['ma3'] = data['Close'].rolling(3).mean()
+    # 🔥 TARGET (prediksi besok)
+    data['target'] = data['Close'].shift(-1)
 
-    # hapus NaN akibat lag
+    # hapus NaN akibat shift
     data = data.dropna()
 
     # simpan

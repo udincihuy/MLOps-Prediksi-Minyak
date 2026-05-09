@@ -41,7 +41,7 @@ jobs:
         run: |
           pytest
 
-    train:
+  train:
     needs: test
     runs-on: ubuntu-latest
 

@@ -4,19 +4,17 @@ on:
   push:
     branches:
       - main
+      - lk08
 
   pull_request:
     branches:
       - main
 
 jobs:
-
   test-train-evaluate:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
